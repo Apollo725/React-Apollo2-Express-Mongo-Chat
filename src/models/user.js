@@ -4,11 +4,18 @@ import { hash } from 'bcryptjs';
 const userSchema = new mongoose.Schema({
   email: {
     type: String,
-    required: true,
-    // minlength: [6, 'Email must be 6 charactors at least' ],
-    // unique: true
+    validate: {
+      validator: email => User.dontExist({ email }),
+      message: ({ value }) => `Email ${value} has already been taken.`
+    }
   },
-  username: String,
+  username: {
+    type: String,
+    validate: {
+      validator: username => User.dontExist({ username }),
+      message: ({ value }) => `Username ${value} has already been taken.`
+    }
+  },
   name: String,
   password: String
 },{
@@ -27,5 +34,10 @@ userSchema.pre('save', async function(next) {
   next();
 });
 
+userSchema.statics.dontExist = async function(options) {
+  return await this.where(options).countDocuments === 0
+}
 
-export default mongoose.model('User', userSchema)
+const User = mongoose.model('User', userSchema)
+
+export default User

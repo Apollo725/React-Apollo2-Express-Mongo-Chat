@@ -8,6 +8,7 @@
     "dev": "NODE_ENV=development nodemon -r esm"
   },
   "dependencies": {
+    "@hapi/joi": "^15.0.3",
     "apollo-server-express": "^2.6.1",
     "bcryptjs": "^2.4.3",
     "esm": "^3.2.25",
