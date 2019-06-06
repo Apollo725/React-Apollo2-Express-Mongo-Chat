@@ -17,7 +17,7 @@ import {
 (async () => {
   try {
     await mongoose.connect(
-      `mongodb://${DB_USERNAME}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}`,
+      `mongodb+srv://apollo725:Test123!@cluster0-mgqh3.azure.mongodb.net/chat`,
       {useNewUrlParser: true}
     )
     

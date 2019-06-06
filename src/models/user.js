@@ -1,4 +1,5 @@
 import mongoose from 'mongoose'
+import { hash } from 'bcryptjs';
 
 const userSchema = new mongoose.Schema({
   email: {
@@ -13,5 +14,18 @@ const userSchema = new mongoose.Schema({
 },{
   timestamps: true
 })
+
+userSchema.pre('save', async function(next) {
+  console.log("password", this.isModified('password'))
+  if (this.isModified('password')) {
+    try {
+      this.password = await hash(this.password, 10)
+    } catch (err) {
+      next(err)
+    }
+  } 
+  next();
+});
+
 
 export default mongoose.model('User', userSchema)
